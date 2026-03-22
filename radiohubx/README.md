@@ -1,25 +1,38 @@
 # RadioHubX Dataset (Public)
 
-This folder hosts the public dataset files used by the RadioHubX app.
+This folder hosts public dataset bundles used by RadioHubX.
 
-## Files
+## Bundles
 
-- `stations_lite.db.gz`: compressed SQLite dataset for app download
-- `latest.json`: dataset metadata (version, checksum, file size)
+- `stations_lite.db.gz`: smaller bundle for default app startup (Top-N filtered)
+- `stations_lite_all.db.gz`: larger full bundle (more stations)
+
+## Metadata files
+
+- `latest.json`: metadata for `stations_lite.db.gz`
+- `latest_all.json`: metadata for `stations_lite_all.db.gz`
+
+Each metadata file contains:
+
+- `version`: dataset version label (date-based)
+- `updated_at_utc`: UTC timestamp when metadata was generated
+- `file`: target dataset filename
+- `sha256`: SHA-256 checksum of that dataset file
+- `size`: file size in bytes
+- `source`: upstream data source
 
 ## Raw URLs
 
 - `https://raw.githubusercontent.com/MaxAIStudio/maxaistudio_datasets/main/radiohubx/stations_lite.db.gz`
 - `https://raw.githubusercontent.com/MaxAIStudio/maxaistudio_datasets/main/radiohubx/latest.json`
+- `https://raw.githubusercontent.com/MaxAIStudio/maxaistudio_datasets/main/radiohubx/stations_lite_all.db.gz`
+- `https://raw.githubusercontent.com/MaxAIStudio/maxaistudio_datasets/main/radiohubx/latest_all.json`
 
-## latest.json fields
+## Recommended app strategy
 
-- `version`: dataset version label (date-based)
-- `updated_at_utc`: UTC timestamp when metadata was generated
-- `file`: dataset filename
-- `sha256`: SHA-256 checksum of `stations_lite.db.gz`
-- `size`: file size in bytes
-- `source`: upstream data source
+- Default mode: check `latest.json`, download/use `stations_lite.db.gz`
+- More-stations mode: check `latest_all.json`, download/use `stations_lite_all.db.gz`
+- Validate file integrity with `sha256` before replacing local DB
 
 ## Data source
 
@@ -27,6 +40,5 @@ This folder hosts the public dataset files used by the RadioHubX app.
 
 ## Notes
 
-- The app should download `latest.json` first, then compare version/checksum.
-- For logo display in app station list, ensure dataset includes `favicon` field.
-- For playback reliability, ensure dataset includes `url_resolved` and `url`.
+- For station logo display, dataset should include `favicon`.
+- For playback reliability, dataset should include `url_resolved` and `url`.
